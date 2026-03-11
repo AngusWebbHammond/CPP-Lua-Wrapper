@@ -15,24 +15,28 @@ This project is licensed under the MIT License, see [LICENSE](/LICENSE).
 
 It is recommended to build this through CMake as a static library. To build:
 
-    ```sh
+```sh
     cmake -S . -B build
     cmake --build build --config Debug
-    ```
+```
+
+If you are looking to include this as a static library, then you should be aware of the following options, if you want to disable testing, then you should set `BUILD_LUA_TESTS` to off in your CMake configuration files.
 
 ## Running the tests
 
 Once built, the unit tests can be executed from the build directory:
 
-    ```sh
+```sh
     .\build\Tests\Debug\lua_wrapper_tests.exe
-    ```
+```
+
+To see the test files, look in the `/Tests` directory.
 
 ## Usage
 
 The wrapper is intended to provide a thin, type-safe C++ interface on top of the Lua C API. Example usage:
 
-    ```c++
+```c++
     #include "LuaState.h"
     #include "LuaStack.h"
     #include "LuaSandbox.h"
@@ -44,9 +48,25 @@ The wrapper is intended to provide a thin, type-safe C++ interface on top of the
         test.getFunction("test").call();
         test.getFunction("delta").call(0.1f);
     }
-    ```
+```
 
-Refer to the header files (e.g. `include/LuaState.h`, `include/LuaStack.h`) for more documentation and examples.
+The test file for this above code is the following, located at [test.lua](/Tests/test.lua):
+
+```lua
+    local Test = {}
+
+    function Test.test()
+        print("Test Called")
+    end
+
+    function Test.delta(dt)
+        print("Delta Called with time: ", dt)
+    end
+
+    return Test
+```
+
+Refer to the header files in `/include` for more documentation and examples.
 
 ## License
 
