@@ -11,7 +11,7 @@ namespace LuaWrapper {
         LuaState();
         ~LuaState();
 
-        LuaStack& getStack();
+        LuaStack* getStack();
         LuaSandbox createSandbox();
 
     private:

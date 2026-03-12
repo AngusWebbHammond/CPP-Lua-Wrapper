@@ -11,7 +11,7 @@ namespace LuaWrapper {
     LuaRef::LuaRef(LuaStack* stack, int index)
         : m_stack(stack), m_ref(-1)
     {
-        auto* state{ toLua(m_stack->getNativeState()->getNativeState()) };
+        auto* state{ m_stack->getNativeState() };
         lua_pushvalue(state, index);
         m_ref = luaL_ref(state, LUA_REGISTRYINDEX);
     }
@@ -19,7 +19,7 @@ namespace LuaWrapper {
     LuaRef::~LuaRef()
     {
         if (m_ref != -1) {
-            luaL_unref(toLua(m_stack->getNativeState()->getNativeState()), LUA_REGISTRYINDEX, m_ref);
+            luaL_unref(m_stack->getNativeState(), LUA_REGISTRYINDEX, m_ref);
         }
     }
 
@@ -43,14 +43,14 @@ namespace LuaWrapper {
 
     void LuaRef::push() const
     {
-        lua_rawgeti(toLua(m_stack->getNativeState()->getNativeState()), LUA_REGISTRYINDEX, m_ref);
+        lua_rawgeti(m_stack->getNativeState(), LUA_REGISTRYINDEX, m_ref);
     }
 
     LuaFunction LuaRef::getFunction(const std::string& name)
     {
         LuaStack::Guard guard{ m_stack };
         push();
-        lua_getfield(toLua(m_stack->getNativeState()->getNativeState()), -1, name.c_str());
+        lua_getfield(m_stack->getNativeState(), -1, name.c_str());
         return LuaFunction(m_stack, -1);
     }
 

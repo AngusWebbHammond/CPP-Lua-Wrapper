@@ -13,7 +13,7 @@ namespace LuaWrapper {
     LuaSandbox::LuaSandbox(LuaStack* stack)
         : m_stack{ stack }
     {
-        auto* state{ toLua(m_stack->getNativeState()->getNativeState()) };
+        auto* state{ m_stack->getNativeState() };
         LuaStack::Guard guard{ m_stack };
 
         lua_newtable(state);
@@ -36,7 +36,7 @@ namespace LuaWrapper {
 
     LuaRef LuaSandbox::loadScript(const std::string& path)
     {
-        auto* state{ toLua(m_stack->getNativeState()->getNativeState()) };
+        auto* state{ m_stack->getNativeState() };
         LuaStack::Guard guard{ m_stack };
 
         if (luaL_loadfile(state, path.c_str()) != LUA_OK) {
@@ -55,7 +55,7 @@ namespace LuaWrapper {
 
     void LuaSandbox::addGlobal(const std::string& name, std::function<int(void*)> fn)
     {
-        auto* state{ toLua(m_stack->getNativeState()->getNativeState()) };
+        auto* state{ m_stack->getNativeState() };
         LuaStack::Guard guard{ m_stack };
 
         m_functions.insert({ name, std::make_unique<std::function<int(void*)>>(fn) });
@@ -71,7 +71,7 @@ namespace LuaWrapper {
 
     void LuaSandbox::removeGlobal(const std::string& name)
     {
-        auto* state{ toLua(m_stack->getNativeState()->getNativeState()) };
+        auto* state{ m_stack->getNativeState() };
         LuaStack::Guard guard{ m_stack };
 
         m_environmentRef.push();

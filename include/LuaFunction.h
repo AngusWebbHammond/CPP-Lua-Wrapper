@@ -18,7 +18,7 @@ namespace LuaWrapper {
         }
 
         template<typename... Args>
-        void call(Args... args);
+        bool call(Args... args);
 
     private:
         LuaStack* m_stack;
@@ -26,9 +26,9 @@ namespace LuaWrapper {
     };
 
     template<typename ...Args>
-    inline void LuaFunction::call(Args ...args)
+    inline bool LuaFunction::call(Args ...args)
     {
-        auto state{ toLua(m_stack->getNativeState()->getNativeState()) };
+        auto state{ m_stack->getNativeState() };
         LuaStack::Guard guard{ m_stack };
 
         m_ref.push();
@@ -36,7 +36,10 @@ namespace LuaWrapper {
 
         if (lua_pcall(state, sizeof...(Args), 0, 0) != LUA_OK) {
             std::println("Lua Error: {}", lua_tostring(state, -1));
+            return false;
         }
+
+        return true;
     }
 
 }

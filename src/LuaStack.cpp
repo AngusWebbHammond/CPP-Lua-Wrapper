@@ -65,9 +65,9 @@ namespace LuaWrapper {
         lua_settop(toLua(m_state->getNativeState()), t);
     }
 
-    auto LuaStack::getNativeState() -> LuaState*
+    auto LuaStack::getNativeState() -> lua_State*
     {
-        return m_state;
+        return toLua(m_state->getNativeState());
     }
 
     LuaStack::Guard::Guard(LuaStack* stack)

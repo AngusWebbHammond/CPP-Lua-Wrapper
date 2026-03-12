@@ -35,14 +35,14 @@ namespace LuaWrapper {
         destroyImpl();
     }
 
-    LuaStack& LuaState::getStack()
+    LuaStack* LuaState::getStack()
     {
-        return *m_impl->stack;
+        return m_impl->stack.get();
     }
 
     LuaSandbox LuaState::createSandbox()
     {
-        return LuaSandbox{ m_impl->stack.get() };
+        return LuaSandbox{ getStack() };
     }
 
     void* LuaState::getNativeState() const

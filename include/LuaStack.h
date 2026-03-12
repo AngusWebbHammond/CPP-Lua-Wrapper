@@ -2,6 +2,8 @@
 
 #include <string>
 
+struct lua_State;
+
 namespace LuaWrapper {
     class LuaState;
 
@@ -23,7 +25,7 @@ namespace LuaWrapper {
         auto top() const -> int;
         auto setTop(int t) -> void;
 
-        auto getNativeState() -> LuaState*;
+        auto getNativeState() -> lua_State*;
 
         class Guard
         {
