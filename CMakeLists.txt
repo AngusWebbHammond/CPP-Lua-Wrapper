@@ -1,16 +1,23 @@
 cmake_minimum_required(VERSION 3.28)
 
 project(lua_wrapper
-    VERSION 1.0.0
-    DESCRIPTION "Thin C++23 Lua wrapper"
-    LANGUAGES CXX
+VERSION 1.0.0
+DESCRIPTION "Lightweight C++23 Lua wrapper"
+LANGUAGES CXX
 )
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+option(BUILD_LUA_TESTS "Build Tests" ON)
+
 add_subdirectory(Vendors/lua-5.5.0)
+
+if(BUILD_LUA_TESTS)
+    add_subdirectory(Vendors/googletest)
+endif()
+
 add_subdirectory(Tests)
 
 add_library(lua_wrapper STATIC)

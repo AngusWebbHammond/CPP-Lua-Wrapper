@@ -14,10 +14,9 @@
 TEST(LuaTests, LuaFileTest) {
     LuaWrapper::LuaState state{};
     auto sandbox{ state.createSandbox() };
-    LuaWrapper::LuaRef test{ sandbox.loadScript("Tests/test.lua") };
-    test.getFunction("test").call();
-    test.getFunction("delta").call(0.1f);
-    EXPECT_TRUE(test.valid());
+    LuaWrapper::LuaRef test{ sandbox.loadScript(std::string(LUA_TEST_BINARY) + "/Assets/test.lua") };
+    EXPECT_TRUE(test.getFunction("test").call());
+    EXPECT_TRUE(test.getFunction("delta").call(0.1f));
 }
 
 void testPrint(int i) {
@@ -36,10 +35,9 @@ TEST(LuaTests, LuaCallbackTest) {
             return 0;
         }
     );
+    LuaWrapper::LuaRef test{ sandbox.loadScript(std::string(LUA_TEST_BINARY) + "/Assets/testGlobal.lua") };
 
-    LuaWrapper::LuaRef test{ sandbox.loadScript("Tests/testGlobal.lua") };
-    test.getFunction("callCPPFunction").call();
+    EXPECT_TRUE(test.getFunction("callCPPFunction").call());
 
     sandbox.removeGlobal("testPrint");
-    EXPECT_TRUE(true);
 }
