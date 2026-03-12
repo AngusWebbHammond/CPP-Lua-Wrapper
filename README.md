@@ -30,7 +30,7 @@ Once built, the unit tests can be executed from the build directory:
     .\build\Tests\Debug\lua_wrapper_tests.exe
 ```
 
-To see the test files, look in the `/Tests` directory.
+To see the test files, look in the `/Tests/Assets` directory.
 
 ## Usage
 
@@ -44,13 +44,13 @@ The wrapper is intended to provide a thin, type-safe C++ interface on top of the
     int main() {
         LuaWrapper::LuaState state{};
         auto sandbox{ state.createSandbox() };
-        LuaWrapper::LuaRef test{ sandbox.loadScript("Tests/test.lua") };
+        LuaWrapper::LuaRef test{ sandbox.loadScript("Tests/Assets/test.lua") };
         test.getFunction("test").call();
         test.getFunction("delta").call(0.1f);
     }
 ```
 
-The test file for this above code is the following, located at [test.lua](/Tests/test.lua):
+The test file for this above code is the following, located at [test.lua](/Tests/Assets/test.lua):
 
 ```lua
     local Test = {}
