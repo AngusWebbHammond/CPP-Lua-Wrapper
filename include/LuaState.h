@@ -9,6 +9,10 @@ namespace LuaWrapper {
     class LuaState {
     public:
         LuaState();
+        LuaState(const LuaState&) = delete;
+        LuaState(LuaState&&);
+        LuaState& operator=(const LuaState&) = delete;
+        LuaState& operator=(LuaState&&);
         ~LuaState();
 
         LuaStack* getStack();

@@ -30,6 +30,22 @@ namespace LuaWrapper {
         : m_impl{ std::make_unique<Impl>(createImpl()) } {
     }
 
+    LuaState::LuaState(LuaState&& other) : m_impl{ std::make_unique<Impl>() }
+    {
+        m_impl->state = std::move(other.m_impl->state);
+        m_impl->stack = std::move(other.m_impl->stack);
+        other.m_impl = nullptr;
+    }
+
+    LuaState& LuaState::operator=(LuaState&& other)
+    {
+        m_impl = std::make_unique<Impl>();
+        m_impl->state = std::move(other.m_impl->state);
+        m_impl->stack = std::move(other.m_impl->stack);
+        other.m_impl = nullptr;
+        return *this;
+    }
+
     LuaState::~LuaState()
     {
         destroyImpl();

@@ -10,6 +10,18 @@ namespace LuaWrapper {
         : m_state{ state } {
     }
 
+    LuaStack::LuaStack(LuaStack&& other) : m_state{ std::move(other.m_state) }
+    {
+        other.m_state = nullptr;
+    }
+
+    LuaStack& LuaStack::operator=(LuaStack&& other)
+    {
+        m_state = std::move(other.m_state);
+        other.m_state = nullptr;
+        return *this;
+    }
+
     auto LuaStack::push(int v) -> void
     {
         lua_pushinteger(toLua(m_state->getNativeState()), v);

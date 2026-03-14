@@ -12,6 +12,9 @@ namespace LuaWrapper {
         LuaRef(LuaStack* stack, int index);
         ~LuaRef();
 
+        LuaRef(const LuaRef&) noexcept;
+        LuaRef& operator=(const LuaRef&) noexcept;
+
         LuaRef(LuaRef&&) noexcept;
         LuaRef& operator=(LuaRef&&) noexcept;
 

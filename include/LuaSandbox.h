@@ -16,6 +16,10 @@ namespace LuaWrapper {
     {
     public:
         explicit LuaSandbox(LuaStack* stack);
+        LuaSandbox(const LuaSandbox&) = default;
+        LuaSandbox(LuaSandbox&&) = default;
+        LuaSandbox& operator=(const LuaSandbox&) = default;
+        LuaSandbox& operator=(LuaSandbox&&) = default;
 
         LuaRef loadScript(const std::string& path);
 

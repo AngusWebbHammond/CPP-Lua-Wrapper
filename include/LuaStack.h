@@ -10,6 +10,10 @@ namespace LuaWrapper {
     class LuaStack {
     public:
         explicit LuaStack(LuaState* state);
+        LuaStack(const LuaStack&) = delete;
+        LuaStack(LuaStack&&);
+        LuaStack& operator=(const LuaStack&) = delete;
+        LuaStack& operator=(LuaStack&&);
 
         auto push(int v) -> void;
         auto push(double v) -> void;
@@ -26,6 +30,8 @@ namespace LuaWrapper {
         auto setTop(int t) -> void;
 
         auto getNativeState() -> lua_State*;
+
+        auto isStateValid() -> bool { return m_state; }
 
         class Guard
         {

@@ -20,6 +20,8 @@ namespace LuaWrapper {
         template<typename... Args>
         bool call(Args... args);
 
+        auto isValid() const -> bool { return m_stack; }
+
     private:
         LuaStack* m_stack;
         LuaRef m_ref;

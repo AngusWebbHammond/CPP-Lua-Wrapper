@@ -19,8 +19,23 @@ namespace LuaWrapper {
     LuaRef::~LuaRef()
     {
         if (m_ref != -1) {
-            luaL_unref(m_stack->getNativeState(), LUA_REGISTRYINDEX, m_ref);
+            if (m_stack->isStateValid()) {
+                luaL_unref(m_stack->getNativeState(), LUA_REGISTRYINDEX, m_ref);
+            }
         }
+    }
+
+    LuaRef::LuaRef(const LuaRef& other) noexcept
+        : m_stack(other.m_stack), m_ref(other.m_ref)
+    {
+    }
+
+    LuaRef& LuaRef::operator=(const LuaRef& other) noexcept
+    {
+        m_stack = other.m_stack;
+        m_ref = other.m_ref;
+
+        return *this;
     }
 
     LuaRef::LuaRef(LuaRef&& other) noexcept
